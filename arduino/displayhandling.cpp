@@ -1,6 +1,7 @@
 #include "displayhandling.h"
 
 #include "EasyNextionLibrary.h"
+#include "analogsens.h"
 #include "temperatursens.h"
 #include "logik.h"
 #include "aktoren.h"
@@ -109,6 +110,9 @@ void updatePage1()
   for (uint8_t i = 0; i < MAX_SENSORS; i++) { 
     myNex.writeStr("t" + String(i) + ".txt", String(TEMPSENS::getTemp(i), 1) );
   };
+
+  // aussentemperatur updaten
+  myNex.writeStr("tAussen.txt", String(ANASENS::getAussenTemp(), 1) );
 
   //===========================================================================
   // Klappe BGA

@@ -30,6 +30,7 @@
 #include <OneWire.h>
 
 #include "displayhandling.h"
+#include "analogsens.h"
 #include "temperatursens.h"
 #include "aktoren.h"
 #include "eestore.h"
@@ -39,10 +40,13 @@ void setup()
 {
   Serial.begin(9600);      // PC
 
+  Serial.println(F("V2026.09.18")); // Datum / Version als Wiedererkennung ausgeben
+
   DISP::setup();           // Nextion Display (Pins 16=RX2, 17=TX2)
 
   EEStore::setup();   // lädt Params + Sensor-ROMs oder legt Defaults an
 
+  ANASENS::setup();  // PT100 sensor
   TEMPSENS::setup(); // DS18B20 sensoren
 
   AKTOREN::setup(); // Motorklappen und pumpe
@@ -54,7 +58,7 @@ void loop()
   uint32_t msNow = millis();
 
   DISP::loop(); // daten vom display senden und empfangen
-
+  ANASENS::loop(); // temperaturen lesen und auswerten
   TEMPSENS::loop(); // temperaturen lesen und auswerten
 
   LOGIK::loop();
